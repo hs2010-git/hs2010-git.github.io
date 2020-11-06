@@ -1,0 +1,184 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Git</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.0.2/dist/reset.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.0.2/dist/reveal.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.0.2/dist/theme/black.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/monokai.min.css"><style>.reveal .slides img.logo-img {
+  background: white;
+  border: 10px solid #fff;
+  border-radius: 10px;
+}
+
+.reveal:not(.overview) .slides {
+  overflow: hidden;
+}
+
+.reveal .slides .white-bg {
+  background-color: white;
+}
+
+.reveal .slides section .fragment.emph,
+.reveal .slides section .fragment.unemph,
+.reveal .slides section asciinema-player.fragment {
+  visibility: inherit;
+  opacity: 1;
+}
+
+.reveal .slides pre > code > strong:not(.red),
+.reveal .slides .fragment.unemph:not(.visible) > .fragment.emph.visible:not(.red),
+.reveal .slides :not(.unemph) > .fragment.emph.visible:not(.red) {
+  background-color: yellow;
+  color: black;
+}
+
+.reveal .slides pre > code > strong.red,
+.reveal .slides .fragment.unemph:not(.visible) > .fragment.emph.red.visible,
+.reveal .slides :not(.unemph) > .fragment.emph.red.visible {
+  background-color: red;
+  color: black;
+}
+
+.reveal pre {
+  font-size: 1em;
+  line-height: 1;
+  font-variant-ligatures: none;
+}
+
+.reveal pre code {
+  max-height: none;
+}
+
+.reveal pre .sans {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.reveal code {
+  font-variant-ligatures: none;
+}
+
+.reveal .underline {
+  text-decoration: underline;
+}
+
+.reveal pre.asciinema-terminal {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: none;
+}
+
+.reveal .slides section .invisible {
+  visibility: hidden;
+}
+
+html.print-pdf .reveal pre code {
+  font-family: monospace !important;
+}
+</style></head><body><div class="reveal"><div class="slides"><style>.reveal .slides img.logo-img {
+  background: white;
+  border: 10px solid #fff;
+  border-radius: 10px;
+}
+
+.reveal .slides .font120 {
+  font-size: 120%;
+}
+
+.reveal .slides .font75 {
+  font-size: 75%;
+}
+
+.reveal .slides .font70 {
+  font-size: 70%;
+}
+
+.reveal .slides .font45 {
+  font-size: 45%;
+}
+
+.reveal .slides .underline {
+  text-decoration: underline;
+}
+
+.reveal .slides .mt0 {
+  margin-top: 0;
+}
+
+.reveal .slides .mb0 {
+  margin-bottom: 0;
+}
+
+.reveal .slides .white-bg {
+  background: white;
+  padding: 5px;
+}
+
+.reveal .slides section .fragment.mark,
+.reveal .slides section .fragment.mark-red {
+  opacity: 1;
+  visibility: inherit;
+}
+
+.reveal .slides section .fragment.mark.visible,
+.reveal .slides section .mark:not(.fragment) {
+  background: yellow;
+}
+
+.reveal .slides section .fragment.mark.visible,
+.reveal .slides section .fragment.mark.visible .hljs-string,
+.reveal .slides section .mark:not(.fragment) {
+  color: black;
+}
+
+.reveal .slides section .fragment.mark-red.visible,
+.reveal .slides section .mark-red:not(.fragment) {
+  background: maroon;
+}
+
+.reveal .slides section .fragment.mark-red.visible,
+.reveal .slides section .fragment.mark-red.visible .hljs-string,
+.reveal .slides section .mark-red:not(.fragment) {
+  color: white;
+}</style><section><h1>Advanced Git</h1><p><a href="https://nushackers.org" target="_blank"><img class="logo-img" src="../nushackers_svg.svg" style="height: 5ex;"></a></p></section><section><h2>Slides</h2><p>https://hs2010-git.github.io/adv/</p></section><section><h2>Git mechanics</h2><p>A Git repository is just a bunch of objects.</p><p>An object is either a commit, a tree, or a blob (file).</p><p>Each commit points to a tree, parent commit(s), and has some metadata.</p><p>i.e. each commit is a snapshot of files, with some metadata and parent commit(s). That's it.</p></section><section><h2>Git mechanics</h2><p>Commits form a directed acyclic graph.</p><ul><li>directed: commits point to their parent(s)</li><li>acyclic: there cannot be commit cycles</li><li>graph: commits are nodes, and the parent commit relationships are the edges</li></ul></section><section><h2>Git mechanics</h2><p>Branches and tags (refs) are just pointers to commits.</p><p>The "current branch" is simply whatever is pointed to by the HEAD ref.</p></section><section><h2>Exercise repository</h2><p><a href="https://github.com/hs2010-git/advgit" target="_blank">https://github.com/hs2010-git/advgit</a></p></section><section><h2>Commit and history manipulation</h2></section><section><h2><code>commit --amend</code></h2><p>Amends the current commit (HEAD).</p><p>Other useful flags with this:<br><code>--date</code>, <code>--author</code>, <code>--reset-author</code></p><h3>Exercises</h3><ul><li>Amend HEAD to be authored by you on 3 November 2020 at 12:00.</li><li>Amend HEAD to have an extra file.</li></ul></section><section><h2><code>rebase -i &lt;base&gt;</code></h2><p>Interactive rebase onto <code>base</code>.</p><pre style="font-size: 0.6em"><code class="plaintext">p, pick &lt;commit&gt; = use commit
+r, reword &lt;commit&gt; = use commit, but edit the commit message
+e, edit &lt;commit&gt; = use commit, but stop for amending
+s, squash &lt;commit&gt; = use commit, but meld into previous commit
+f, fixup &lt;commit&gt; = like "squash", but discard this commit's log message
+x, exec &lt;command&gt; = run command (the rest of the line) using shell
+b, break = stop here (continue rebase later with 'git rebase --continue')
+d, drop &lt;commit&gt; = remove commit
+l, label &lt;label&gt; = label current HEAD with a name
+t, reset &lt;label&gt; = reset HEAD to a label
+m, merge [-C &lt;commit&gt; | -c &lt;commit&gt;] &lt;label&gt; [# &lt;oneline&gt;]
+.       create a merge commit using the original merge commit's
+.       message (or the oneline, if no original merge commit was
+.       specified). Use -c &lt;commit&gt; to reword the commit message.</code></pre></section><section><h2><code>rebase -i &lt;base&gt;</code> Exercises</h2><ul><li>Fix the spelling error in <code>1dab2c</code>. (There are at least 2 ways of doing so.)</li><li>Reorder the commits.</li><li>Drop a commit.</li></ul></section><section><h2><code>cherry-pick</code></h2><p>Pick commits and apply them on top of the current HEAD.</p><h3>Exercises</h3><ul><li>Cherry-pick <code>e362b5</code>.</li></ul></section><section><h2>Cleaning histories</h2><p>Sometimes, PRs are created with very messy histories.</p><h3>Exercise</h3><p>Clean up the history of <a href="https://github.com/hs2010-git/advgit/pull/1">this PR</a>.</p></section><section><h2>Patches</h2></section><section><h2>Patches</h2><p>A patch/diff file simply consists of the output of <code>diff</code>, <code>show</code>, etc.</p><p>You can send a file to someone else to apply.</p></section><section><h2><code>apply</code></h2><p>Apply a patch.</p><h3>Exercise: Apply this patch:</h3><pre style="font-size: 0.6em"><code class="diff">diff --git a/hello.c b/hello.c
+index 896abe6..d8f149b 100644
+--- a/hello.c
++++ b/hello.c
+@@ -2,7 +2,7 @@
+
+ int main(int argc, char *argv[]) {
+     if (argc &gt; 1) {
+-        printf("Hello %s!\n", argv[1]);
++        printf("Hello %s! You said %d more things.\n", argv[1], argc - 2);
+     } else {
+         printf("Hello uncertain worl\n");
+     }</code></pre></section><section><h2><code>format-patch &lt;since / range&gt;</code></h2><p>Generate patches for multiple commits.</p><p>This is how one <a href="https://lore.kernel.org/lkml/20200907094843.1949-1-Jason@zx2c4.com/">formats patches for the Linux kernel!</a></p></section><section><h2><code>am</code></h2><p>"Apply mail". This is how Linux kernel maintainers apply patches received on the mailing lists.</p><h3>Exercise</h3><p>Apply the two patches in the repository.</p></section><section><h2>Patches on GitHub</h2><p>You can get patches from a GitHub commit by just adding <code>.patch</code> to the URL.</p></section><section><h2>Bisect</h2></section><section><h2><code>bisect</code></h2><p>Binary search for a commit. Usually used to find the commit in which something broke.</p><h3>Exercises</h3><p>Bisect the <code>bisect</code> branch. Find the first commit that has "BROKEN" in <code>file</code>.</p><p>Now bisect it automatically using <code>bisect run</code>.</p></section><section><h2>reflog</h2></section><section><h2><code>reflog</code></h2><p>View a ref's log (i.e. the commits it has pointed to in the past).</p><h3>Exercises</h3><p>Do some destructive operation e.g. <code>commit --amend</code>. Use <code>reflog</code> to restore your original commit.</p></section><section><h2>Rewriting a repository</h2></section><section><h2><a href="https://github.com/newren/git-filter-repo"><code>filter-repo</code></a></h2><p>Rewrite a repository.</p><h3>Exercises</h3><p>Use <code>filter-repo</code> to remove <code>secret</code> from the repository entirely.</p></section><section><h2>Submodules</h2></section><section><h2><code>submodule</code></h2><p>Include a repository within your current directory.</p><h3>Exercises</h3><p>Add a submodule. Use any repository, or <a href="https://github.com/hs2010-git/big-repo">this</a> if you can't think of any.</p><p>Make the submodule refer to a different commit.</p></section><section><h2>Multiple worktrees</h2></section><section><h2><code>worktree</code></h2><p>Have multiple branches checked out at a time.</p><h3>Exercises</h3><p>Check out the <code>branch</code> branch as a separate worktree.</p></section><section><h2>The .git directory</h2></section><section><h2><code>.git</code> layout</h2><ul><li><code>HEAD</code>: points to the active ref</li><li><code>index</code>: the repository index</li><li><code>config</code>: repository-specific configuration</li><li><code>objects</code>, <code>refs</code>, <code>logs</code>: as per the name</li></ul><p>More information: <a href="https://git-scm.com/docs/gitrepository-layout/">gitrepository-layout(5)</a></p></section><section><h2><code>gc</code></h2><p>Optimise the repository and prune unused objects.</p><h3>Exercises</h3><p>Add and commit a new file. Then (pretend it's an accident) reset the commit, expire the reflog, and <code>gc</code> to prune the objects. Use <code>cat-file</code> to verify the presence of the object.</p></section><section><h2>Making a commit "by hand"</h2><ul><li><code>update-index --add ...</code></li><li><code>write-tree</code></li><li><code>commit-tree</code></li></ul><p><a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects">More information.</a></p><h3>Exercise: do the above</h3></section><section><h2>End</h2><p>Feedback<br><a href="https://bit.ly/hs2010-git-fb" target="_blank">https://bit.ly/hs2010-advgit-fb</a></p><p>Slides<br>https://hs2010-git.github.io/adv/</p></section></div></div><script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script><script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.8.0/dist/highlightjs-line-numbers.min.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@4.0.2/dist/reveal.min.js"></script><script src="../reveal-highlight-v4.js"></script><script>Reveal.initialize({
+  plugins: [ RevealHighlight ],
+  slideNumber: true,
+  fragmentInURL: true,
+  transitionSpeed: "fast",
+  // center: false,
+  hash: true,
+  navigationMode: "linear",
+  transition: "fade",
+  pdfSeparateFragments: false,
+  highlight: {
+    escapeHTML: false
+  }
+});
+Reveal.addEventListener("fragmentshown", function({ fragment }) {
+  if (fragment.nodeName === "ASCIINEMA-PLAYER") {
+    fragment.player.play();
+  }
+});
+Reveal.addEventListener("fragmenthidden", function({ fragment }) {
+  if (fragment.nodeName === "ASCIINEMA-PLAYER") {
+    fragment.player.pause();
+  }
+});</script></body></html>
